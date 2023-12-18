@@ -6,8 +6,7 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon src/main.js",
-    "start": "node src/main.js"
+    "dev": "nodemon src/main.js"
   },
   "author": "Aybi Yañez",
   "license": "ISC",
@@ -20,8 +19,5 @@
   },
   "devDependencies": {
     "nodemon": "^3.0.2"
-  },
-  "engines": {
-    "node": "16.x"
   }
 }
