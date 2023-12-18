@@ -1,3 +1,4 @@
+import Cart from '../models/shoppingCartModel.js'
 import { getCartService, addToCartServices, removeFromCartServices, cleanCartService, cartFrontService, readCartFrontService } from '../service/shoppingCartServices.js';
 
 const getCartController = async (request, response) => {
@@ -62,9 +63,9 @@ const cleanCartController = async (request, response) => {
     }
 };
 
-const cartFrontController = async (req, res) => {
+const cartFrontController = async (request, response) => {
     try {
-        const { items } = req.body; // Supongo que los datos del carrito están en el cuerpo de la solicitud
+        const { items } = request.body;
 
         // Crear un nuevo carrito con los productos validados por el frontend
         const newCart = new Cart({ items });
@@ -72,26 +73,26 @@ const cartFrontController = async (req, res) => {
         // Guardar el carrito en la base de datos
         const savedCart = await newCart.save();
 
-        res.status(201).json({ message: 'Pedido almacenado con éxito', cart: savedCart });
+        response.status(201).json({ message: 'Pedido almacenado con éxito', cart: savedCart });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: 'Error al procesar el pedido', error: error.message });
+        response.status(500).json({ message: 'Error al procesar el pedido', error: error.message });
     }
 };
   
 
-  const readCartDataFrontController = async (req, res) => {
+const readCartDataFrontController = async (request, response) => {
     try {
-      // Llama a la función para obtener el carrito desde el servicio
-      const cartData = await readCartFrontService();
-  
-      // Responder con los datos del carrito en formato JSON
-      res.json(cartData);
+        // Llama a la función para obtener el carrito desde el servicio
+        const cartData = await readCartFrontService();
+
+        // Responder con los datos del carrito en formato JSON
+        response.json(cartData);
     } catch (error) {
-      // Manejar errores y responder con un código de estado 500
-      console.error(error);
-      res.status(500).json({ message: 'Error al obtener los datos del carrito', error: error.message });
+        // Manejar errores y responder con un código de estado 500
+        console.error(error);
+        response.status(500).json({ message: 'Error al obtener los datos del carrito', error: error.message });
     }
-  };
-  
+};
+
 export { getCartController, addToCartController, removeFromCartController, cleanCartController, cartFrontController, readCartDataFrontController };

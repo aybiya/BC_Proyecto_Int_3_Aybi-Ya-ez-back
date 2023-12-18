@@ -6,6 +6,7 @@ const cartItemSchema = new Schema({
         model: String,
         size: String,
         description: String,
+        _id: String,
 
     },
     quantity: {

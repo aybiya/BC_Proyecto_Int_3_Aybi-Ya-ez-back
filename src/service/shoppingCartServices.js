@@ -35,7 +35,7 @@ const addToCartServices = async (productId, quantity) => {
         }
 
         // Buscar si el producto ya está en el carrito
-        const existingProductIndex = cart.items.findIndex(item => item.product.id === productId);
+        const existingProductIndex = cart.items.findIndex(item => item.product._id === productId);
 
         if (existingProductIndex !== -1) {
             // Calcular la cantidad total que habría si se actualiza con la nueva cantidad
@@ -135,14 +135,13 @@ const cartFrontService = async (cartData) => {
     try {
       // Crea un nuevo pedido en la base de datos usando el modelo de Order
       const newOrder = new Order({
-            product: {
-                id: productInfo._id,
-                quantity: productInfo.quantity
-            },
-      });
-  
-      // Guarda el nuevo pedido en la base de datos
-      const savedOrder = await newOrder.save();
+        items: cartData.items,
+    });
+
+    // Save the new order in the database
+    const savedOrder = await newOrder.save();
+
+    return savedOrder;
   
       return savedOrder;
     } catch (error) {
@@ -155,14 +154,22 @@ const cartFrontService = async (cartData) => {
     try {
       // Lógica para leer los datos del carrito desde la base de datos
       const cartData = await Cart.findOne();
-  
-      // Si no hay datos en el carrito, puedes devolver un mensaje o un objeto vacío según tu necesidad
+
       if (!cartData) {
-        return { message: 'El carrito está vacío' };
+          return { message: 'El carrito está vacío' };
       }
-  
-      // Si hay datos, devuelve los datos del carrito
-      return cartData;
+
+      // Obtener solo los IDs de los productos en el carrito
+      const productIds = cartData.items.map(item => item.product.id);
+
+      // Crear una copia del carrito con solo los IDs de los productos en la propiedad 'items'
+      const cartWithProductIds = {
+          _id: cartData._id,
+          items: productIds,
+          __v: cartData.__v,
+      };
+
+      return cartWithProductIds;
     } catch (error) {
       throw new Error(`Error al leer los datos del carrito: ${error.message}`);
     }

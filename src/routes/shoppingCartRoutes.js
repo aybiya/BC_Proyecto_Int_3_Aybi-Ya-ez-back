@@ -7,11 +7,10 @@ const routerShoppingCart = express.Router();
 // ver productos del carrito
 routerShoppingCart.get('/shopping-cart', getCartController);
 // agregar producto al carrito
-routerShoppingCart.post('/shopping-cart',cartInfoValidator, addToCartController);
+routerShoppingCart.post('/shopping-cart', addToCartController);
 // eliminar producto del carrito
-routerShoppingCart.delete('/shopping-cart',cartInfoValidator, removeFromCartController);
-
-// guardar datos del carrito del front
+routerShoppingCart.delete('/shopping-cart', removeFromCartController);
+// leer datos del carrito del front
 routerShoppingCart.get('/cart', readCartDataFrontController);
 // guardar datos del carrito del front
 routerShoppingCart.post('/cart', cartFrontController);
