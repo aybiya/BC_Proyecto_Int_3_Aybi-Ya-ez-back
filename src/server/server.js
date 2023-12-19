@@ -12,8 +12,10 @@ const server = express();
 server.use(cors('*'));
 server.use(express.json());
 server.use(registerTimeRequest);
-server.use('/',router);
-server.use(router);
+server.get('/', (req, res) => {
+    res.send('Bienvenido a mi servidor');
+  });
+  server.use(router);
 server.use(routerShoppingCart);
 
 server.use(routeError)
