@@ -14,10 +14,6 @@ server.use(registerTimeRequest);
 server.use(router);
 server.use(routerShoppingCart);
 
-server.get('/', (req, res) => {
-    res.send('Hello, welcome to the API!');
-  });
-
 server.use(routeError)
 
 export default server;
