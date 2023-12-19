@@ -7,8 +7,9 @@ import cors from 'cors';
 
 //middlewares
 const server = express();
-server.use(cors('*'));
 
+//para poder usar fetch en el Front
+server.use(cors('*'));
 server.use(express.json());
 server.use(registerTimeRequest);
 server.use(router);
