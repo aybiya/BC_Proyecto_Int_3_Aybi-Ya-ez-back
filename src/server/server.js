@@ -12,6 +12,7 @@ const server = express();
 server.use(cors('*'));
 server.use(express.json());
 server.use(registerTimeRequest);
+server.use('/',router);
 server.use(router);
 server.use(routerShoppingCart);
 
